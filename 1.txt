@@ -1,0 +1,118 @@
+ContactList.java 
+
+package Phone;
+import java.util.*;
+
+public class ContactList {
+	Scanner s = new Scanner(System.in);
+	static ArrayList<Contacts> clist = new ArrayList<Contacts>();
+	public ContactList() {
+		clist.add(new Contacts(1,"a"));
+		clist.add(new Contacts(2,"b"));
+		clist.add(new Contacts(3,"c"));
+		clist.add(new Contacts(4,"d"));
+		clist.add(new Contacts(5,"e"));
+		clist.add(new Contacts(6,"f"));
+	}	
+	public static ArrayList<Contacts> getclist(){
+		return clist;
+	}
+}
+
+Contacts.java 
+
+package Phone;
+
+public class Contacts {
+	int num;String name;
+	public Contacts(int n,String name) {
+		this.num = n;
+		this.name = name;
+	}
+}
+
+missedCallList.java
+
+package Phone;
+import java.util.*;
+public class missedCallList {
+	ArrayList<missedCall> mlist = new ArrayList<missedCall>();
+	Scanner sc = new Scanner(System.in);
+	public missedCallList() {
+		while(true) {
+			System.out.println("Enter y to give missedcall");
+			if(sc.nextLine().equals("y")) {
+				System.out.println("Enter number");
+				int num = Integer.parseInt(sc.nextLine());
+				if(mlist.size()==10) {
+					mlist.remove(0);
+				}
+				mlist.add(new missedCall(num));
+			}
+			else {
+				break;
+			}
+		}
+	}
+	
+	public void viewLog() {
+		for(int i=0;i<mlist.size();) {
+			System.out.println("Enter option for call "+(i+1)+" :\n1.Delete this missedcall\n2.Next\n3.Display this missedcall\n4.exit");
+			int n = Integer.parseInt(sc.nextLine());
+			if(n==2) {
+				i++;
+			}
+			else if(n==1) {
+				mlist.remove(mlist.get(i));
+			}else if(n==3){
+				System.out.println(mlist.get(i));
+				System.out.println();
+			}
+			else {
+				break;
+			}
+		}
+	}
+}
+
+
+missedcall.java
+
+package Phone;
+import java.time.LocalDateTime;
+public class missedCall {
+	String name = "Private Caller";
+	int num;
+	LocalDateTime d;
+	public missedCall(int num) {
+		this.num = num;
+		this.d = LocalDateTime.now();
+		for(Contacts i: ContactList.getclist()) {
+			if(i.num==num) {
+				this.name = i.name;
+				break;
+			}
+		}
+	}
+	public String toString() {
+		return "Name: "+name+" Phone: "+num +" Date: "+d;
+	}
+}
+
+
+main.java
+
+
+package Phone;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ContactList cl = new ContactList();
+		missedCallList ml = new missedCallList();
+		ml.viewLog();
+		System.out.println("end of progm");
+	}
+
+}
